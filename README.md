@@ -40,22 +40,27 @@ IOSM is a sequential, iterative process built on four foundational pillars:
 
 ## The IOSM Cycle: A Visual Diagram
 
-The core of IOSM is a closed loop, where progress to the next phase is guarded by a **Quality Gate**. The cycle repeats until the system's health score (`IOSM-Index`) reaches a stable, high-quality state.
+The core of IOSM is a closed loop, where each step must pass a **Quality Gate** before moving forward. The cycle continues until the system’s health score (`IOSM-Index`) stabilizes at a high level.
 
 ```mermaid
-graph TD
-    A[Start Cycle] --> I{Improve};
-    I -- Pass Gate I --> O{Optimize};
-    I -- Fail Gate I --> I;
-    O -- Pass Gate O --> S{Shrink};
-    O -- Fail Gate O --> O;
-    S -- Pass Gate S --> M{Modularize};
-    S -- Fail Gate S --> S;
-    M -- Pass Gate M --> E[Score & Decide];
-    M -- Fail Gate M --> M;
-    E -- IOSM_Index < 0.98 --> A;
-    E -- IOSM_Index ≥ 0.98 --> F[End / Stabilized];
+flowchart TD
+    A([Start Cycle]) --> I[Improve]
+    I -->|Pass Gate I| O[Optimize]
+    I -->|Fail Gate I| I
+    O -->|Pass Gate O| S[Shrink]
+    O -->|Fail Gate O| O
+    S -->|Pass Gate S| M[Modularize]
+    S -->|Fail Gate S| S
+    M -->|Pass Gate M| E[Score & Decide]
+    M -->|Fail Gate M| M
+    E -->|IOSM_Index < 0.98| A
+    E -->|IOSM_Index ≥ 0.98| F([End / Stabilized])
 ```
+
+This diagram is simplified:  
+- Each phase loops only to itself if a gate fails.  
+- Flow is always forward on success.  
+- Decision at the end is a single clean branch.  
 
 ## How It Works: The Algorithm
 
